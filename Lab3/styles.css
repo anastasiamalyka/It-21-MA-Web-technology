@@ -1,1 +1,66 @@
+/* Загальні стилі */
+body {
+  font-family: Verdana, sans-serif;
+  background-color: #0b0f2a;
+  
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 
+header {
+  background-color: #141a3d;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}
+
+main {
+    flex: 1;
+}
+
+/* Стилізація контейнера за допомогою Flexbox */
+.container {
+  display: flex;
+  justify-content: space-around; /* Простір між блоками */
+  align-items: center;           /* Вертикальне вирівнювання */
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+/* Стилізація блоків (демонстрація Box Model) */
+.box {
+  background-color: #0b0f2a;
+  width: 250px;
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column; /* вертикально */
+  align-items: center;
+}
+
+.box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.box p {
+  color: #fff;
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+}
+
+/* Медіа-запит для адаптивності */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* Вертикальне розташування для менших екранів */
+  }
+}
+footer {
+  background-color: #141a3d;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+}
