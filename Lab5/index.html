@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна робота №5. Маніпуляція DOM та обробка подій</title>
+</head>
+<body>
+
+    <header>
+        <h1>Маніпуляція DOM та обробка подій</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Зміна вмісту елемента</h2>
+            <p id="main-text">Натисніть на кнопку нижче, щоб змінити цей текст</p>
+            <button id="change-text-btn">На мене!</button>
+        </section>
+
+        <section>
+            <h2>Обробка подій</h2>
+            <h3>Наведіть на текст нижче</h3>
+            <h3 id="interactive-heading" style="display: inline-block; padding: 10px; transition: 0.3s;">O.O</h3>
+            <p>(При наведенні зміниться текст, колір фону та розмір шрифту)</p>
+        </section>
+
+        <section>
+            <h2>Додавання нового елемента</h2>
+            <button id="add-item-btn">Додайте елемент</button>
+            <button id="remove-item-btn">Видаліть останній</button>
+            <ul id="my-list">
+                <li>Я є з самого початку</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Додаткове завдання</h2>
+            <button id="n-clicks-btn">Натисніть 8 разів</button>
+            <p>Ви натиснули: <span id="counter-display">0</span> разів</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Дякую за увагу!</p>
+    </footer>
+
+    <script>
+        const mainText = document.getElementById('main-text');
+        const changeTextBtn = document.getElementById('change-text-btn');
+        const heading = document.getElementById('interactive-heading');
+        const list = document.getElementById('my-list');
+        const addItemBtn = document.getElementById('add-item-btn');
+        const removeItemBtn = document.getElementById('remove-item-btn');
+        const variantBtn = document.getElementById('n-clicks-btn');
+        const counterDisplay = document.getElementById('counter-display');
+
+        changeTextBtn.addEventListener('click', function() {
+            mainText.textContent = "Бачите? Реально змінився";
+        });
+
+        heading.addEventListener('mouseover', function() {
+            this.style.backgroundColor = "lightgreen";
+            this.style.fontSize = "30px";
+            this.textContent = "OwO";
+        });
+
+        heading.addEventListener('mouseout', function() {
+            this.style.backgroundColor = "transparent";
+            this.style.fontSize = "18.72px"; //розмір h3
+            this.textContent = "O.O";
+        });
+
+        addItemBtn.addEventListener('click', function() {
+            const newLi = document.createElement('li');
+            newLi.textContent = "Я новий елемент з номером " + (list.children.length + 1);
+            list.appendChild(newLi);    //додавання в кінець
+        });
+
+        removeItemBtn.addEventListener('click', function() {
+            if (list.lastElementChild) {
+                list.removeChild(list.lastElementChild);
+            }
+        });
+
+        let clickCount = 0;
+        const targetNumber = 8;
+
+        variantBtn.addEventListener('click', function() {
+            clickCount++;
+            counterDisplay.textContent = clickCount;
+
+            if (clickCount === targetNumber) {
+                alert("Малика Анастасія, варіант номер 8");
+                clickCount = 0;
+                counterDisplay.textContent = clickCount;
+            }
+        });
+    </script>
+</body>
+</html>
