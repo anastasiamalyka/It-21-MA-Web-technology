@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Форма реєстрації</title>
+  <style>
+    * {   /* * - застосовує стилі до всіх елементів*/
+      box-sizing: border-box;  
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #e0e0e0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;  /*горизонталь*/
+      align-items: center;  /*вертикаль*/
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .form-container {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 30px 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);  /* тінь: зміщення X=0, Y=2px, розмив 10px, прозорість 15% */
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;  /*зовнішній знизу*/
+      font-size: 22px;
+      color: #111;
+    }
+
+    .form-group {
+      margin-bottom: 14px; 
+    }
+
+    label {  /*підпис для елементів форми*/
+      display: block;  /*новий рядок*/
+      margin-bottom: 4px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      color: #333;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,  /*focus ставить курсор в поле*/
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+      border-color: #4a90d9;
+    }
+
+    input.error,  /*рамка*/
+    select.error {
+      border-color: #e53935;
+    }
+
+    .error-msg {  /*текст*/
+      color: #e53935;
+      font-size: 12px;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .error-msg.visible {  /*повідомлення стає видимим*/
+      display: block;
+    }
+
+    .radio-group {  /*контейнер*/
+      display: flex;
+      gap: 20px;  /*відстань між елементами*/
+      margin-top: 4px;
+    }
+
+    .radio-group label {  /*текст в контейнері*/
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+      color: #333;
+      cursor: pointer;  /* "на це можна натиснути" */
+      margin-bottom: 0;
+    }
+
+    input[type="radio"] {  /*кружеячок в виборі*/
+      accent-color: #1a73e8;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background-color: #2e7d32;
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;  /*жирний текст*/
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.2s;
+    }
+
+    button[type="submit"]:hover {  /*користувач навів мишку*/
+      background-color: #1b5e20;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Форма реєстрації</h2>
+
+    <form id="registrationForm" novalidate>
+
+      <!-- Ім'я -->
+      <div class="form-group">
+        <label for="name">Введіть своє ім'я:</label>
+        <input type="text" id="name" name="name" placeholder="Сюди!">  /*текст зникає при вводі*/
+        <span class="error-msg" id="nameError">Як вас звати??</span>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Введіть свій Email:</label>
+        <input type="email" id="email" name="email" placeholder="example@email.com">
+        <span class="error-msg" id="emailError">Введіть коректний email</span>
+      </div>
+
+      <!-- Пароль -->
+      <div class="form-group">
+        <label for="password">Введіть свій пароль:</label>
+        <input type="password" id="password" name="password" placeholder="Мінімум 6 символів">
+        <span class="error-msg" id="passwordError">Пароль повинен містити не менше 6 символів</span>
+      </div>
+
+      <!-- Підтвердження пароля -->
+      <div class="form-group">
+        <label for="confirmPassword">Повторіть пароль:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Повторіть пароль">
+        <span class="error-msg" id="confirmPasswordError">Пароль не похожий на попередній</span>
+      </div>
+
+      <!-- Вік -->
+      <div class="form-group">
+        <label for="age">Введіть свій вік:</label>
+        <input type="number" id="age" name="age" placeholder="Скільки вам років?" min="10">
+        <span class="error-msg" id="ageError">Дітям до 10 років не можна!</span>
+      </div>
+
+      <!-- Стать -->
+      <div class="form-group">
+        <label>Ваша стать?:</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="gender" value="male"> Чоловік
+          </label>
+          <label>
+            <input type="radio" name="gender" value="female"> Жінка
+          </label>
+        </div>
+        <span class="error-msg" id="genderError">Ви не можете бути безполим :(</span>
+      </div>
+
+      <button type="submit">Зареєструватися</button>
+
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+      event.preventDefault(); /*після натискання кнопки сторінка не перезавантажується*/
+
+      let isValid = true; /*спочатку без помилок, після натискання помилки*/
+
+      function showError(inputId, errorId) {  /*створення функцій*/
+        const input = document.getElementById(inputId);
+        const error = document.getElementById(errorId);
+        if (input) input.classList.add("error");  /*якщо є помилка, то стає видимою*/
+        error.classList.add("visible");
+        isValid = false;
+      }
+
+      function clearError(inputId, errorId) {  /*прибирання помилки*/
+        const input = document.getElementById(inputId);
+        const error = document.getElementById(errorId);
+        if (input) input.classList.remove("error");
+        error.classList.remove("visible");
+      }
+
+      clearError("name", "nameError");  /*після виправлення прибирають помилки*/
+      clearError("email", "emailError");
+      clearError("password", "passwordError");
+      clearError("confirmPassword", "confirmPasswordError");
+      clearError("age", "ageError");
+      document.getElementById("genderError").classList.remove("visible");
+
+      /*створення змінної . отримання назви . отримання значення .без пробілів*/
+      const name = document.getElementById("name").value.trim();
+      if (name === "") {
+        showError("name", "nameError");
+      }
+
+      const email = document.getElementById("email").value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;  /*умова, символи, які повинні або не повинні бути*/
+      if (!emailRegex.test(email)) {
+        showError("email", "emailError");
+      }
+
+      const password = document.getElementById("password").value;
+      if (password.length < 6) {
+        showError("password", "passwordError");
+      }
+
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      if (confirmPassword !== password || confirmPassword === "") {
+        showError("confirmPassword", "confirmPasswordError");
+      }
+
+          /*перетворює текст на число*/
+      const age = parseInt(document.getElementById("age").value);
+      if (isNaN(age) || age < 10) {  /*перевіряє чи це число або менше 10*/
+        showError("age", "ageError");
+      }
+
+                                                              /*якщо кнопка натиснута*/
+      const genderSelected = document.querySelector('input[name="gender"]:checked');
+      if (!genderSelected) {  /*якщо нічого не вибрано*/
+        document.getElementById("genderError").classList.add("visible");
+        isValid = false;
+      }
+
+      if (isValid) {
+        alert("Ви зареєструвалися!");
+        this.reset();
+      }
+    });
+  </script>
+
+</body>
+</html>
