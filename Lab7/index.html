@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS-анімації</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+        background-color: #f0f0f0;
+        
+        /*(8 % 5) * 0.3 = 0.9s */
+        transition: background-color 0.9s ease;
+    }
+
+    h2 {
+        margin-top: 40px;
+    }
+
+    .button {
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 10px;
+        background-color: #20B2AA;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.5s ease-in-out, /*повільно-швидко-повільно, але м'яко*/
+                    transform 0.2s ease;  /*повільно-швидко-повільно, але звичайний перехід*/
+    }
+
+    .button:hover {
+        background-color: #FF6347;
+    }
+
+    .button:active {
+        transform: scale(1.1);
+    }
+
+    .content {
+        width: 300px;
+        margin: 20px auto;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        max-height: 50px;
+        padding: 10px;
+        transition: max-height 0.8s ease;
+    }
+
+    .content:hover {
+        max-height: 200px;
+    }
+
+    .box {
+        width: 80px;
+        height: 80px;
+        background-color: #483D8B;
+        margin: 40px auto;
+
+        /*8 * 0.2 = 1.6s */
+        animation: move 1.6s linear infinite alternate;  /*однакова швидкість руху, безкінечше повторення, після завершення рухатись назад*/
+        position: relative;  /*елемент лишається на місці, але можна змінювати*/
+    }
+
+    @keyframes move {
+        from {
+            left: -150px;
+        }
+
+        to {
+            left: 150px;
+        }
+    }
+
+    .circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #BC8F8F;
+        margin: 30px auto;
+        position: relative;
+        transition: left 1.6s ease;
+    }
+
+    .move {
+        left: 250px;
+    }
+</style>
+</head>
+
+<body>
+
+    <h1>CSS-анімації</h1>
+
+    <h2>Наведіть курсор на блок нижче, а потім натисніть</h2>
+
+    <button class="button" id="mainButton">
+        Натисніть на мене
+    </button>
+
+    <h2>Наведіть курсор на текст, щоб побачити продовження</h2>
+
+    <div class="content">
+        <p>
+            Нижче написані 3 цікаві факти про котиків. Перше - вони можуть спати від 12 до 16 годин на день. Друге - відбиток їх носика унікальний, майже як відбиток пальця у людини. Третє - котики не відчувають солодкий смак.
+        </p>
+    </div>
+
+    <h2>Дивіться, він рухається</h2>
+
+    <div class="box"></div>
+
+    <h2>Індивідуальне завдання</h2>
+
+    <button class="button" id="moveButton">
+        Натисніть, що б коло почало рухатись і змінився колір фону
+    </button>
+
+    <div class="circle" id="circle"></div>
+
+<script>
+    const circle = document.getElementById("circle");
+    const moveButton = document.getElementById("moveButton");
+
+    /*Рух кола при кліку*/
+    moveButton.addEventListener("click", function () {
+        circle.classList.toggle("move");
+        document.body.style.backgroundColor = getRandomColor();
+    });
+
+    /*Випадковий колір кола кожні N секунд*/
+    setInterval(function () {  /*код запускається через одниковий час, ф-ція повторюється*/
+        circle.style.backgroundColor = getRandomColor();
+    }, 8000);  /*час у мілісекундах, тобто 8 секунд*/
+
+    /*Функція генерації випадкового кольору*/
+    function getRandomColor() {
+        const letters = "0123456789ABCDEF"; /*це для запису кольорів*/
+        let color = "#";
+
+        for (let i = 0; i < 6; i++) {  /*почати з 0, виконати 6 разів, після проходу збільшити на 1*/
+            color += letters[Math.floor(Math.random() * 16)];  /*задає рандом число*/
+        }
+        return color;
+    }
+</script>
+
+</body>
+</html>
