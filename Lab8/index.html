@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Динамічне завантаження даних</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        table {  /*таблиця*/
+            width: 100%;
+            border-collapse: collapse;  /*що б не було подвійних ліній, в мене вони умовні*/
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        tr:nth-child(even) {  /*всі непарні рядки світлосірі*/
+            background: #f5f5f5;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 15px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .form-container {
+            width: 300px;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        input {  /*полі введення*/
+            width: 90%;
+            padding: 8px;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Список користувачів</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ім'я</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody id="usersTable">
+            </tbody>
+        </table>
+
+        <button onclick="loadUsers()">
+            Оновити
+        </button>
+
+        <div class="form-container">
+            <h3>Додати нового користувача</h3>
+            <input
+                type="text"
+                id="name"
+                placeholder="Введіть ім'я">
+
+            <div
+                class="error"
+                id="nameError">
+            </div>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Введіть email">
+
+            <div
+                class="error"
+                id="emailError">
+            </div>
+
+            <button onclick="addUser()">
+                Додати користувача
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function loadUsers() {
+            fetch("https://jsonplaceholder.typicode.com/users")  /*список користувачів у формат JSON*/
+                .then(response => {  /*виконується після відповіді сервера*/
+                    if (!response.ok) {  /*чи запит успішний, якщо ні..*/
+                        throw new Error("Помилка отримання даних");
+                    }
+                    return response.json();  /*перетворює у формат JavaScript*/
+                })
+
+                .then(data => {  /*отримання даних*/
+                    let table =  /*шукає в html елемент*/
+                        document.getElementById("usersTable");
+                    table.innerHTML = "";  /*очищає таблицю*/
+                    data.forEach(user => {  /*проходить по всім елементам*/
+                        let row =  /*створює новий рядок*/
+                            document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${user.id}</td>
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                        `;  /*заповнює рядок даними*/
+                        table.appendChild(row);  /*додає рядок*/
+                    });
+                })
+
+                .catch(error => {  /*обробка помилок*/
+                    console.log(error);
+                    alert(
+                        "Не вдалося отримати дані"  /*якщо проблема в передачі даних*/
+                    );
+                });
+        }
+
+        function addUser() {  /*бере введений текст*/
+            let name =
+                document.getElementById("name").value.trim();
+            let email =
+                document.getElementById("email").value.trim();
+            let nameError =
+                document.getElementById("nameError");
+            let emailError =
+                document.getElementById("emailError");
+
+            nameError.innerHTML = "";  /*прибирає помилки*/
+            emailError.innerHTML = "";
+
+            let isValid = true;
+
+            if (name === "") {
+                nameError.innerHTML =
+                    "Введіть ім'я";
+
+                isValid = false;
+            }
+
+            const emailPattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (email === "") {
+                emailError.innerHTML =
+                    "Введіть email";
+                isValid = false;
+            }
+
+            else if (!emailPattern.test(email)) {
+                emailError.innerHTML =
+                    "Неправильний формат email";
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return;
+            }
+
+            let table =
+                document.getElementById("usersTable");
+            let row =  /*створює новий рядок*/
+                document.createElement("tr");
+            let id =
+                table.rows.length + 1;  /*рахує кількість рядків*/
+
+            row.innerHTML = `
+                <td>${id}</td>
+                <td>${name}</td>
+                <td>${email}</td>
+            `;  /*заповнює створений рядок*/
+
+            table.appendChild(row);  /*додавання до таблиці*/
+
+            document.getElementById("name").value = "";  /*після успішного додавання очищає*/
+            document.getElementById("email").value = "";
+        }
+
+        loadUsers();
+    </script>
+</body>
+</html>
