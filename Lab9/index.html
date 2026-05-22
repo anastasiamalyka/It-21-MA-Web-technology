@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Робота з локальним сховищем (LocalStorage) у JavaScript</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+        }
+
+        .container {
+            width: 350px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 65%;
+            padding: 8px;
+        }
+
+        button {
+            background: #20B2AA;
+            color: white;
+            border: none;
+            padding: 8px 10px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #008080;
+        }
+
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f5f5f5;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>To-Do List</h2>
+        <input
+            type="text"
+            id="taskInput"
+            placeholder="Введіть завдання">
+
+        <button onclick="addTask()">
+            Додати
+        </button>
+
+        <div
+            class="error"
+            id="error">
+        </div>
+
+        <br>
+        <button onclick="sortTasks()">
+            Сортувати за алфавітом
+        </button>
+        <div id="taskList"></div>
+    </div>
+
+    <script>
+        let tasks =
+            JSON.parse(  /*перетворює на JavaScript масив*/
+                localStorage.getItem("tasks")
+            ) || [];  /*завдання є або нема*/
+
+        function saveTasks() {  /*збереження всіх завдань*/
+            localStorage.setItem(  /*зберігає дані у сховищі браузера.*/
+                "tasks",
+                JSON.stringify(tasks)  /*перетворення на рядки, масив не приймає*/
+            );
+        }
+
+        function displayTasks() {
+            let taskList =
+                document.getElementById("taskList");
+            taskList.innerHTML = "";
+
+            tasks.forEach((task, index) => {  /*проходить по кожному елементу*/
+                let div =
+                    document.createElement("div");
+                div.className = "task";
+
+                /*створенний div заповнюється кодом*/
+                div.innerHTML = `
+                    <span>${task}</span>
+                    <div class="buttons">
+                        <button onclick="editTask(${index})">
+                            Редагувати
+                        </button>
+                        <button onclick="deleteTask(${index})">
+                            Видалити
+                        </button>
+                    </div>
+                `;
+                taskList.appendChild(div);
+            });
+        }
+
+        function addTask() {
+            let input =
+                document.getElementById("taskInput");
+            let error =
+                document.getElementById("error");
+            let task =
+                input.value.trim();  /*прибирає зайві пробіли*/
+
+            error.innerHTML = "";
+
+            if (task === "") {
+                error.innerHTML =
+                    "Введіть завдання";
+                return;
+            }
+
+            tasks.push(task);  /*додає в кінець*/
+            saveTasks();  /*зберігає зміни*/
+            displayTasks();  /*оновлює список*/
+            input.value = "";  /*очищає поле введення*/
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);  /*вибирає, який елемент видалити (з'якого місця і скільки елементів)*/
+            saveTasks();
+            displayTasks();
+        }
+
+        function editTask(index) {
+            let newTask =
+                prompt(  /*відкриття вікна редагування*/
+                    "Редагувати завдання:",
+                    tasks[index]  /*підставляє новий текст*/
+                );
+
+            if (
+                newTask !== null &&  /*чи не натиснув користувач скасувати*/
+                newTask.trim() !== ""  /*якщо рядок порожній, не зберіжеться*/
+            ) {
+                tasks[index] = newTask;  /*заміна тексту*/
+                saveTasks();
+                displayTasks();
+            }
+        }
+
+        function sortTasks() {
+            tasks.sort();
+            saveTasks();
+            displayTasks();
+        }
+
+        displayTasks();
+
+    </script>
+</body>
+</html>
