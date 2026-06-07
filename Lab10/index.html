@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сайт-візитка</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #B0E0E6;
+        }
+
+        header {
+            background-color: #008080;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        nav {
+            background-color: #20B2AA;
+            text-align: center;
+            padding: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: auto;
+        }
+
+        input,textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #4169E1;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4682B4;
+        }
+
+        footer {
+            background-color: #008080;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Анастасія Малика</h1>
+        <p>Студентка групи Іт-21, відмінниця, староста, активістка та одна з довіриних лиць декана та деканату</p>
+    </header>
+
+    <nav>
+        <a href="#about">Про мене</a>
+        <a href="#skills">Навички</a>
+        <a href="#contacts">Контакти</a>
+    </nav>
+
+    <main>
+        <section id="about">
+            <h2>Про мене</h2>
+            <p>
+                Я студентка 2 курсу групи Іт-21. Живу в гуртожитку, вчусь, помагаю в університеті та і просто живу звичайним студентським життям. Неймовірно люблю тварин, але особливо фанатію від котів. 
+            </p>
+        </section>
+
+        <section id="skills">
+            <h2>Навички</h2>
+            <ul>
+                <li>Вчу Python</li>
+                <li>Поверхнево вчу HTML, CSS та JavaScript</li>
+                <li>Розвиваю англійську</li>
+                <li>Іноді приймаю участь в спартакіадах з тяжкої атлетики</li>
+                <li>Професійно вмію накручувати себе :></li>
+            </ul>
+        </section>
+
+        <section id="contacts">
+            <h2>Зв'язатися зі мною</h2>
+            <form id="contactForm">
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Ваше ім'я">
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Ваш email">
+
+                <textarea
+                    id="message"
+                    placeholder="Ваше повідомлення"></textarea>
+
+                <button type="submit">
+                    Надіслати
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>©2026 Анастасія Малика. Всі права захищені.</p>
+    </footer>
+
+    <script>
+        document
+            .getElementById("contactForm")
+            .addEventListener("submit", function (event) {
+
+                event.preventDefault();
+
+                let name =
+                    document.getElementById("name").value.trim();
+
+                let email =
+                    document.getElementById("email").value.trim();
+
+                let message =
+                    document.getElementById("message").value.trim();
+
+                if (
+                    name === "" ||
+                    email === "" ||
+                    message === ""
+                ) {
+
+                    alert("Заповніть усі поля!");
+                    return;
+                }
+
+                alert(
+                    "Дякуємо за повідомлення, " + name + "!"
+                );
+
+                console.log("Ім'я:", name);
+                console.log("Email:", email);
+                console.log("Повідомлення:", message);
+
+                document
+                    .getElementById("contactForm")
+                    .reset();
+            });
+    </script>
+</body>
+</html>
