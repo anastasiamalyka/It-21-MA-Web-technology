@@ -7,11 +7,11 @@ const server = http.createServer((req, res) => {
 
   if (req.url === '/') {
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    res.end('<h1>Головна сторінка</h1>');
+    res.end('<h1>Основна сторінка</h1>');
 
   } else if (req.url === '/about') {
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    res.end('<h1>Про нас</h1><p>Це приклад сервера на Node.js</p>');
+    res.end('<h1>Приклад сторінки "/about"</h1><p>У місяці, який починається з неділі, обов’язково буде п’ятниця 13-е.</p>');
 
   } else if (req.url === '/time') {
     fs.appendFileSync('log.txt', `[${date}, ${time}] ${req.url}\n`);
