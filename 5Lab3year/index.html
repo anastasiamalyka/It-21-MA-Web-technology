@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Мій сервер на Express</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Головна сторінка</h1>
+  <img src="images/logo.png.jpg" alt="Логотип" width="120">
+
+  <p><a href="/time">Поточний час</a> | <a href="/time/json">Час у JSON</a></p>
+
+  <button id="showTime">Показати час на цій сторінці</button>
+  <p id="result"></p>
+
+  <h2>Введіть свою дату і вона збережеться у файл custom.txt разом із часом</h2>
+  <form action="/settime" method="post">
+    <input type="datetime-local" name="userDate" required>
+    <button type="submit">Зберегти</button>
+  </form>
+
+  <script src="script.js"></script>
+</body>
+</html>
