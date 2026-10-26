@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список користувачів</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Список користувачів</h1>
+
+        <form id="userForm">
+            <input type="hidden" id="userId">
+
+            <input type="text" id="name" placeholder="Ім'я" required>
+            <input type="email" id="email" placeholder="Email" required>
+
+            <select id="role" required>
+                <option value="">Оберіть роль</option>
+                <option value="user">Користувач</option>
+                <option value="admin">Адміністратор</option>
+            </select>
+
+            <button type="submit" id="saveButton">Додати користувача</button>
+            <button type="button" id="cancelButton" hidden>Скасувати редагування</button>
+        </form>
+
+        <h2>Користувачі</h2>
+
+        <p id="message"></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ім'я</th>
+                    <th>Email</th>
+                    <th>Роль</th>
+                    <th>Дії</th>
+                </tr>
+            </thead>
+            <tbody id="usersList"></tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
