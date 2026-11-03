@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Реєстрація</title>
+</head>
+<body>
+  <h1>Реєстрація</h1>
+
+  <% errors.forEach(msg => { %>
+    <div class="alert" style="color: red;"><%= msg %></div>
+  <% }) %>
+
+  <form method="POST" action="/register">
+    <p>
+      <label>ПІБ:</label><br>
+      <input type="text" name="fullName" value="<%= old.fullName || '' %>">
+    </p>
+    <p>
+      <label>Email:</label><br>
+      <input type="text" name="email" value="<%= old.email || '' %>">
+    </p>
+    <p>
+      <label>Пароль:</label><br>
+      <input type="password" name="password">
+    </p>
+    <p>
+      <label>Підтвердження пароля:</label><br>
+      <input type="password" name="passwordConfirm">
+    </p>
+    <button type="submit">Зареєструватися</button>
+  </form>
+
+  <p>Вже є акаунт? <a href="/login">Увійти</a></p>
+</body>
+</html>
