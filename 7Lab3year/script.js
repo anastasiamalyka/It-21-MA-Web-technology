@@ -1,146 +1,143 @@
-const userForm = document.getElementById('userForm');
-const usersList = document.getElementById('usersList');
-const userId = document.getElementById('userId');
-const nameInput = document.getElementById('name');
-const emailInput = document.getElementById('email');
-const roleInput = document.getElementById('role');
+
+const form = document.getElementById('paintingForm');
+const list = document.getElementById('paintingsList');
+const search = document.getElementById('search');
+const paintingId = document.getElementById('paintingId');
+const artist = document.getElementById('artist');
+const title = document.getElementById('title');
+const year = document.getElementById('year');
 const saveButton = document.getElementById('saveButton');
 const cancelButton = document.getElementById('cancelButton');
-const message = document.getElementById('message');
 
-async function loadUsers() {
-    try {
-        const response = await fetch('/api/users');
+let paintings = [];
 
-        if (!response.ok) {
-            throw new Error('Не вдалося отримати користувачів');
-        }
-
-        const users = await response.json();
-
-        usersList.replaceChildren();
-
-        users.forEach(user => {
-            const row = document.createElement('tr');
-
-            [
-                user.id,
-                user.name,
-                user.email,
-                user.role === 'admin' ? 'Адміністратор' : 'Користувач'
-            ].forEach(value => {
-                const cell = document.createElement('td');
-                cell.textContent = value;
-                row.appendChild(cell);
-            });
-
-            const actions = document.createElement('td');
-            actions.className = 'actions';
-
-            const editButton = document.createElement('button');
-            editButton.textContent = 'Редагувати';
-            editButton.onclick = () => editUser(user);
-
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Видалити';
-            deleteButton.onclick = () => deleteUser(user.id);
-
-            actions.append(editButton, deleteButton);
-            row.appendChild(actions);
-            usersList.appendChild(row);
-        });
-
-        message.textContent = '';
-    } catch (error) {
-        message.textContent = error.message;
-    }
+async function loadPaintings() {
+    const response = await fetch('/api/paintings');
+    paintings = await response.json();
+    showPaintings();
 }
 
-userForm.addEventListener('submit', async event => {
-    event.preventDefault();
+function showPaintings() {
+    const query = search.value.toLowerCase().trim();
 
-    const id = userId.value;
+    const filtered = paintings.filter(p =>
+        p.artist.toLowerCase().includes(query) ||
+        p.title.toLowerCase().includes(query)
+    );
 
-    const user = {
-        name: nameInput.value.trim(),
-        email: emailInput.value.trim(),
-        role: roleInput.value
-    };
+    list.replaceChildren();
 
-    if (!user.name || !user.email || !user.role) {
-        message.textContent = 'Заповніть усі поля';
+    if (filtered.length === 0) {
+        list.textContent = 'Картин не знайдено';
         return;
     }
 
-    const url = id ? `/api/users/${id}` : '/api/users';
+    filtered.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'painting';
+
+        const heading = document.createElement('h3');
+        heading.textContent = p.title;
+
+        const artistText = document.createElement('p');
+        artistText.textContent = 'Автор: ' + p.artist;
+
+        const yearText = document.createElement('p');
+        yearText.textContent = 'Рік: ' + p.year;
+
+        const actions = document.createElement('div');
+        actions.className = 'actions';
+
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Редагувати';
+        editButton.addEventListener('click', () => editPainting(p));
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Видалити';
+        deleteButton.className = 'delete-button';
+        deleteButton.addEventListener('click', () => deletePainting(p.id));
+
+        actions.append(editButton, deleteButton);
+        card.append(heading, artistText, yearText, actions);
+        list.append(card);
+    });
+}
+form.addEventListener('submit', async event => {
+    event.preventDefault();
+
+    const id = paintingId.value;
+
+    const data = {
+        artist: artist.value.trim(),
+        title: title.value.trim(),
+        year: Number(year.value)
+    };
+
+    const url = id
+        ? `/api/paintings/${id}`
+        : '/api/paintings';
+
     const method = id ? 'PUT' : 'POST';
 
-    try {
-        const response = await fetch(url, {
-            method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        });
+    const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
 
-        const data = await response.json();
+    const result = await response.json();
 
-        if (!response.ok) {
-            throw new Error(data.message || 'Сталася помилка');
-        }
-
-        resetForm();
-        await loadUsers();
-
-        message.textContent = id
-            ? 'Дані користувача оновлено'
-            : 'Користувача додано';
-    } catch (error) {
-        message.textContent = error.message;
+    if (!response.ok) {
+        alert(result.message);
+        return;
     }
+
+    form.reset();
+    paintingId.value = '';
+    saveButton.textContent = 'Додати картину';
+    cancelButton.hidden = true;
+
+    await loadPaintings();
 });
 
-function editUser(user) {
-    userId.value = user.id;
-    nameInput.value = user.name;
-    emailInput.value = user.email;
-    roleInput.value = user.role;
+function editPainting(p) {
+    paintingId.value = p.id;
+    artist.value = p.artist;
+    title.value = p.title;
+    year.value = p.year;
 
     saveButton.textContent = 'Зберегти зміни';
     cancelButton.hidden = false;
+
+    form.scrollIntoView({ behavior: 'smooth' });
 }
 
-async function deleteUser(id) {
-    if (!confirm('Ви дійсно хочете видалити користувача?')) {
+async function deletePainting(id) {
+    if (!confirm('Ви справді хочете видалити картину?')) {
         return;
     }
 
-    try {
-        const response = await fetch(`/api/users/${id}`, {
-            method: 'DELETE'
-        });
+    const response = await fetch(`/api/paintings/${id}`, {
+        method: 'DELETE'
+    });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Не вдалося видалити користувача');
-        }
-
-        await loadUsers();
-        message.textContent = data.message;
-    } catch (error) {
-        message.textContent = error.message;
+    if (!response.ok) {
+        alert('Не вдалося видалити картину');
+        return;
     }
+
+    await loadPaintings();
 }
 
-function resetForm() {
-    userForm.reset();
-    userId.value = '';
-    saveButton.textContent = 'Додати користувача';
+cancelButton.addEventListener('click', () => {
+    form.reset();
+    paintingId.value = '';
+    saveButton.textContent = 'Додати картину';
     cancelButton.hidden = true;
-}
+});
 
-cancelButton.addEventListener('click', resetForm);
+search.addEventListener('input', showPaintings);
 
-loadUsers();
+loadPaintings().catch(() => {
+    list.textContent = 'Помилка з’єднання із сервером';
+});
