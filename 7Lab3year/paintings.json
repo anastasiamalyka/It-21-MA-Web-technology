@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "artist": "Claude Monet",
+    "title": "Water Lilies",
+    "year": 1916
+  },
+  {
+    "id": 2,
+    "artist": "Vincent van Gogh",
+    "title": "Starry Night",
+    "year": 1889
+  },
+  {
+    "id": 3,
+    "artist": "Leonardo da Vinci",
+    "title": "Mona Lisa",
+    "year": 1503
+  }
+]
