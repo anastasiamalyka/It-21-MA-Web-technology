@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Дашборд</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="box wide">
+    <div class="top">
+      <h2 id="greeting">Вітаємо!</h2>
+      <button class="btn btn-outline" id="logoutBtn">Вийти</button>
+    </div>
+
+    <form id="taskForm" class="row">
+      <input type="text" id="taskTitle" placeholder="Нове завдання..." required>
+      <select id="taskPriority">
+        <option value="низька">низька</option>
+        <option value="середня" selected>середня</option>
+        <option value="висока">висока</option>
+      </select>
+      <button class="btn" type="submit">Додати</button>
+    </form>
+    <p id="message" class="message"></p>
+
+    <div class="filters">
+      <button data-filter="all" class="active">Усі</button>
+      <button data-filter="done">Виконані</button>
+      <button data-filter="active">Невиконані</button>
+      <button data-filter="today">Сьогодні</button>
+    </div>
+
+    <ul id="taskList"></ul>
+
+    <div class="chart-box">
+      <canvas id="statsChart"></canvas>
+    </div>
+  </div>
+  <script src="js/app.js"></script>
+</body>
+</html>
