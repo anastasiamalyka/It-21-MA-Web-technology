@@ -1,48 +1,47 @@
+
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список користувачів</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Галерея картин</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="container">
-        <h1>Список користувачів</h1>
+        <h1>Галерея картин</h1>
+        <p>Облік картин та їхніх авторів</p>
 
-        <form id="userForm">
-            <input type="hidden" id="userId">
+        <form id="paintingForm">
+            <input type="hidden" id="paintingId">
 
-            <input type="text" id="name" placeholder="Ім'я" required>
-            <input type="email" id="email" placeholder="Email" required>
+            <label for="artist">Автор картини</label>
+            <input type="text" id="artist"
+                   placeholder="Наприклад, Claude Monet" required>
 
-            <select id="role" required>
-                <option value="">Оберіть роль</option>
-                <option value="user">Користувач</option>
-                <option value="admin">Адміністратор</option>
-            </select>
+            <label for="title">Назва картини</label>
+            <input type="text" id="title"
+                   placeholder="Назва картини" required>
 
-            <button type="submit" id="saveButton">Додати користувача</button>
-            <button type="button" id="cancelButton" hidden>Скасувати редагування</button>
+            <label for="year">Рік створення</label>
+            <input type="number" id="year"
+                   min="1" max="2026" placeholder="Наприклад, 1916"
+                   required>
+
+            <button type="submit" id="saveButton">
+                Додати картину
+            </button>
+            <button type="button" id="cancelButton" hidden>
+                Скасувати редагування
+            </button>
         </form>
 
-        <h2>Користувачі</h2>
+        <h2>Список картин</h2>
 
-        <p id="message"></p>
+        <input type="text" id="search"
+               placeholder="Пошук за автором або назвою">
 
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Ім'я</th>
-                    <th>Email</th>
-                    <th>Роль</th>
-                    <th>Дії</th>
-                </tr>
-            </thead>
-            <tbody id="usersList"></tbody>
-        </table>
+        <div id="paintingsList"></div>
     </div>
 
     <script src="script.js"></script>
