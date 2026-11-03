@@ -6,17 +6,14 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-// Парсинг даних з HTML-форми
 app.use(express.urlencoded({ extended: true }));
 
-// Middleware для логування запитів
 function logger(req, res, next) {
   console.log(`Запит: ${req.method} ${req.url}`);
   next();
 }
 app.use(logger);
 
-// Middleware валідації
 const validatePost = [
   body('title')
     .trim()
@@ -34,7 +31,7 @@ const validatePost = [
     .trim()
     .escape()
     .custom((value) => {
-      if (!value) return true; // теги необов’язкові
+      if (!value) return true; 
       const tags = value.split(',').map(t => t.trim().toLowerCase()).filter(t => t);
       if (tags.length > 5) {
         throw new Error('Не більше 5 тегів');
@@ -57,7 +54,6 @@ const validatePost = [
   }
 ];
 
-// Збереження поста у data.json
 function createPostHandler(req, res) {
   const posts = JSON.parse(fs.readFileSync('data.json', 'utf8'));
 
@@ -68,7 +64,7 @@ function createPostHandler(req, res) {
     tags: req.body.tags
       ? req.body.tags.split(',').map(t => t.trim()).filter(t => t)
       : [],
-    published: req.body.published === 'on' // checkbox надсилає "on", якщо відмічений
+    published: req.body.published === 'on' 
   };
 
   posts.push(post);
@@ -77,7 +73,6 @@ function createPostHandler(req, res) {
   res.send('Пост збережено! <a href="/">Додати ще</a>');
 }
 
-// Маршрути
 app.get('/', (req, res) => {
   res.render('add-post', { errors: [], old: {} });
 });
