@@ -1,72 +1,101 @@
+
 body {
     font-family: Arial, sans-serif;
     background: #f2f4f8;
     margin: 0;
-    padding: 30px;
+    padding: 30px 15px;
+    color: #252b36;
 }
 
 .container {
-    max-width: 900px;
+    max-width: 750px;
     margin: auto;
     background: white;
     padding: 25px;
-    border-radius: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px #00000015;
 }
 
-h1, h2 {
+h1 {
     text-align: center;
+    color: #4356a1;
+}
+
+.container > p {
+    text-align: center;
+    color: #666;
 }
 
 form {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
-input, select, button {
-    padding: 10px;
+input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
     font-size: 15px;
 }
 
 button {
-    background: #2878d0;
-    color: white;
+    padding: 11px;
     border: none;
+    border-radius: 6px;
+    background: #4356a1;
+    color: white;
     cursor: pointer;
-    border-radius: 5px;
+    font-size: 14px;
 }
 
 button:hover {
-    background: #185ba5;
+    opacity: 0.85;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
-    padding: 10px;
+.painting {
     border: 1px solid #ddd;
-    text-align: left;
-    overflow-wrap: anywhere;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 12px;
+    background: #fafbff;
 }
 
-th {
-    background: #2878d0;
-    color: white;
+.painting h3 {
+    margin: 0 0 8px;
+}
+
+.painting p {
+    margin: 6px 0;
 }
 
 .actions {
     display: flex;
-    gap: 5px;
+    gap: 10px;
+    margin-top: 12px;
 }
 
 .actions button {
-    padding: 7px;
+    flex: 1;
 }
 
-#message {
-    text-align: center;
+.delete-button {
+    background: #c44242;
+}
+
+#search {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
 }
